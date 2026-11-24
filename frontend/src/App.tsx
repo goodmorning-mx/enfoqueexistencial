@@ -5,6 +5,7 @@ const images = {
   walk: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1000&q=85',
   forest: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85',
 };
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 
 function ArrowIcon() {
   return <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M10 5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
@@ -16,7 +17,7 @@ function App() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <main>
+    <main data-api-url={apiUrl}>
       <header className="site-header">
         <a className="wordmark" href="#inicio" aria-label="Enfoque Existencial, inicio">
           <span className="wordmark-mark" aria-hidden="true"><span /></span>
