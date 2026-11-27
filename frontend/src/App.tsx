@@ -121,7 +121,7 @@ export default function App() {
           rel="noopener noreferrer"
           aria-label="@yoexistoCDMX en Instagram (abre en otra pestaña)"
         >
-          @yoExistoCDMX
+          @yoexistoCDMX
         </a>
       </footer>
 
