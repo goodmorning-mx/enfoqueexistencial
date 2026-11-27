@@ -54,7 +54,7 @@ export default function App() {
         )}
       </div>
       <header className="site-header">
-        <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoExistoCDMX, inicio">
+        <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoexistoCDMX, inicio">
           <svg className="brand-symbol" viewBox="0 0 32 38" aria-hidden="true" focusable="false">
             <path
               d="M25.3 4.4A15 15 0 1 0 28.2 7.7"
@@ -72,7 +72,7 @@ export default function App() {
               fill="currentColor"
               fillRule="evenodd"
             />
-          </svg> yo<span className="brand-existo">Existo</span><span className="brand-city">CDMX</span>
+          </svg> yo<span className="brand-existo">existo</span><span className="brand-city">CDMX</span>
         </button>
         <button className="plain-button" type="button" onClick={() => about.current?.showModal()}>Cómo funciona <span aria-hidden="true">↗</span></button>
       </header>
