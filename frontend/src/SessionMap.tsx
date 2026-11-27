@@ -3,12 +3,6 @@ import Radar from './effects/Radar.jsx';
 import { INCLUDED_RADIUS, ORIGIN, type Point } from './pricing';
 
 const BOUNDS: [Point, Point] = [[-99.4, 19.12], [-98.94, 19.61]];
-export const LOCATIONS: { title: string; point: Point }[] = [
-  { title: 'Ángel de la Independencia', point: ORIGIN },
-  { title: 'Parque México', point: [-99.1696, 19.4119] },
-  { title: 'Bellas Artes', point: [-99.1413, 19.4352] },
-  { title: 'Coyoacán · Jardín Hidalgo', point: [-99.1622, 19.3496] },
-];
 const mapModule = 'https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.mjs';
 const boundsPoint = (point: Point): Point => [
   Math.min(BOUNDS[1][0], Math.max(BOUNDS[0][0], point[0])),
@@ -23,7 +17,6 @@ interface MapView {
   getCenter(): LngLat;
   addSource(id: string, source: object): void;
   addLayer(layer: object): void;
-  jumpTo(options: { center: Point; zoom?: number }): void;
   zoomIn(options: { duration: number }): void;
   zoomOut(options: { duration: number }): void;
   resize(): void;
@@ -156,23 +149,10 @@ export default function SessionMap({ point, price, onPoint, reducedMotion }: {
           mouseInteraction={false} intro={false} dpr={1} />}
       </div>
       <div className="map-top">
-        <label className="map-places">
-          <span className="sr-only">Puntos de referencia en la ciudad</span>
-          <select value={LOCATIONS.findIndex(location => location.point[0] === point[0] && location.point[1] === point[1])}
-            onChange={(event) => {
-              const location = LOCATIONS[Number(event.target.value)];
-              if (!location) return;
-              onPoint(location.point);
-              map.current?.jumpTo({ center: location.point });
-            }}>
-            <option value={-1} disabled>Punto en el mapa</option>
-            {LOCATIONS.map((location, index) => <option key={location.title} value={index}>{location.title}</option>)}
-          </select>
-        </label>
         <span className="map-led"><i /> CDMX</span>
       </div>
       {status !== 'ready' && <p className="map-fallback" role="status">
-        {status === 'loading' ? 'Cargando mapa de la ciudad…' : 'Mapa no disponible. Elige un punto de referencia.'}
+        {status === 'loading' ? 'Cargando mapa de la ciudad…' : 'Mapa no disponible por el momento.'}
       </p>}
       {status === 'ready' && (
         <div className="map-controls">
