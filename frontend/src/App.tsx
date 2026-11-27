@@ -55,7 +55,24 @@ export default function App() {
       </div>
       <header className="site-header">
         <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoExistoCDMX, inicio">
-          <span className="brand-symbol" aria-hidden="true">✳</span> yo<span className="brand-existo">Existo</span><span className="brand-city">CDMX</span>
+          <svg className="brand-symbol" viewBox="0 0 32 38" aria-hidden="true" focusable="false">
+            <path
+              d="M25.3 4.4A15 15 0 1 0 28.2 7.7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+            <path
+              d="M5.7 27.2c3.6 3.2 6.3 6.2 9.5 10.4a1 1 0 0 0 1.6 0c3.2-4.2 5.9-7.2 9.5-10.4-3.5 2.8-7.2 4.5-10.3 4.5S9.2 30 5.7 27.2Z"
+              fill="currentColor"
+            />
+            <path
+              d="M16 4.5c2.2 5.9 1.8 9.3 12.5 11.3.3.1.3.4 0 .5C18 18.5 18.2 22.6 16 33.2c-2.2-10.6-2-14.7-12.5-16.9-.3-.1-.3-.4 0-.5C14.2 13.8 13.8 10.4 16 4.5Zm0 9.6a2 2 0 1 0 0 4 2 2 0 1 0 0-4Z"
+              fill="currentColor"
+              fillRule="evenodd"
+            />
+          </svg> yo<span className="brand-existo">Existo</span><span className="brand-city">CDMX</span>
         </button>
         <button className="plain-button" type="button" onClick={() => about.current?.showModal()}>Cómo funciona <span aria-hidden="true">↗</span></button>
       </header>
