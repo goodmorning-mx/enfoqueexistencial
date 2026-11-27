@@ -1,6 +1,6 @@
-# Cotizador yoExisto
+# Cotizador yoExistoCDMX
 
-La marca pública es yoExisto y el dominio previsto es `www.yoexisto.mx`.
+La marca pública es yoExistoCDMX y el dominio previsto es `www.yoexisto.mx`.
 
 La landing calcula importes orientativos de una hora en el navegador. El pin no se envía al backend y elegir un horario no crea una reserva. El horario se interpreta en Ciudad de México. El origen del cálculo es un punto público cercano al Ángel de la Independencia, en la zona del CP 06600.
 

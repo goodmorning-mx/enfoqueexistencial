@@ -68,7 +68,8 @@ h1, h2, p { margin: 0; }
   font-weight: 700;
   letter-spacing: -.075em;
 }
-.brand > span:last-child { color: var(--accent); }
+.brand-existo { color: var(--accent); }
+.brand-city { color: #fff; }
 .brand-symbol { display: inline-block; color: var(--accent); font-size: .77em; margin-right: 5px; transform: rotate(-9deg); }
 .plain-button {
   background: none;

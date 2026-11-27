@@ -54,8 +54,8 @@ export default function App() {
         )}
       </div>
       <header className="site-header">
-        <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoExisto, inicio">
-          <span className="brand-symbol" aria-hidden="true">✳</span> yo<span>Existo</span>
+        <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoExistoCDMX, inicio">
+          <span className="brand-symbol" aria-hidden="true">✳</span> yo<span className="brand-existo">Existo</span><span className="brand-city">CDMX</span>
         </button>
         <button className="plain-button" type="button" onClick={() => about.current?.showModal()}>Cómo funciona <span aria-hidden="true">↗</span></button>
       </header>
