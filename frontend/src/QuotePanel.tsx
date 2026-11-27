@@ -6,6 +6,8 @@ import {
   type Hour, type PlaceType, type Plan, type Point,
 } from './pricing';
 
+const bookingPage: string | undefined = undefined;
+
 const dateForNextWindow = (now: Date) => {
   const today = localToday(now);
   return minutesUntil(today, 21, now) > 0 ? today : localToday(new Date(now.getTime() + 86_400_000));
@@ -85,13 +87,26 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
             aria-invalid={!validTicket} onChange={event => setTicket(event.target.value)} />
         </label>}
         <div className="quote-summary">
-          <div className="amount">
-            <span className="price" aria-live="polite">{quote ? money(quote.perSession) : '—'}</span>
-            <span>MXN / {plan === 'monthly' ? 'sesión · promedio' : 'hora'}{quote && plan === 'monthly' && <><br />{money(quote.total)} por 4 sesiones</>}</span>
+          <div className="quote-total">
+            <div className="amount">
+              <span className="price" aria-live="polite">{quote ? money(quote.perSession) : '—'}</span>
+              <span>MXN / {plan === 'monthly' ? 'sesión · promedio' : 'hora'}{quote && plan === 'monthly' && <><br />{money(quote.total)} por 4 sesiones</>}</span>
+            </div>
+            <button type="button" className="plain-button breakdown-toggle" onClick={() => tariff.current?.showModal()}>
+              Ver desglose <span aria-hidden="true">↗</span>
+            </button>
           </div>
-          <button type="button" className="plain-button breakdown-toggle" onClick={() => tariff.current?.showModal()}>Ver desglose <span aria-hidden="true">↗</span></button>
+          {bookingPage ? (
+            <a className="book-appointment" href={bookingPage} target="_blank" rel="noreferrer">
+              Agendar cita <span aria-hidden="true">↗</span>
+              <span className="sr-only"> en Google Calendar (abre en otra pestaña)</span>
+            </a>
+          ) : (
+            <button type="button" className="book-appointment" disabled aria-describedby="booking-status">Agendar cita</button>
+          )}
         </div>
         <p className="quote-note">{!validTicket ? 'Ingresa un costo de entrada entre $0 y $100,000.' : hour === null ? 'Elige otra fecha para cotizar.' : lastMinute && quote && quote.discount > DISCOUNTS[plan] ? 'Incluye beneficio de última hora. Cotización sin reserva.' : 'Estimación en hora de CDMX. Sujeta a confirmación.'}</p>
+        {!bookingPage && <p className="quote-note" id="booking-status">Agenda de Google Calendar pendiente de activar.</p>}
       </div>
 
       <dialog ref={tariff} className="modal tariff-modal" aria-labelledby="tariff-title">
