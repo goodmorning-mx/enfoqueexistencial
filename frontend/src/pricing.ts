@@ -2,9 +2,9 @@ export type Point = [longitude: number, latitude: number];
 export type PlaceType = 'inside' | 'outside' | 'event';
 export type Plan = 'single' | 'first' | 'monthly';
 
-// Public reference near the Ángel de la Independencia, not a private address.
-export const ORIGIN: Point = [-99.1677, 19.427];
-export const INCLUDED_RADIUS = 2.5;
+// Nomaddicts Hostal, Av. Chapultepec 79, Ciudad de México.
+export const ORIGIN: Point = [-99.1532714, 19.4262867];
+export const INCLUDED_RADIUS = 2;
 export const MINIMUM = 350;
 export const BASE = 410;
 export const PACKAGE_SIZE = 4;
