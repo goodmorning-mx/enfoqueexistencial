@@ -10,7 +10,7 @@ const bookingPage = 'https://calendar.app.google/hfG1AN1KY7jpz1Qe7';
 
 const dateForNextWindow = (now: Date) => {
   const today = localToday(now);
-  return minutesUntil(today, 21, now) > 0 ? today : localToday(new Date(now.getTime() + 86_400_000));
+  return minutesUntil(today, HOURS[HOURS.length - 1], now) > 0 ? today : localToday(new Date(now.getTime() + 86_400_000));
 };
 const firstHour = (date: string, now: Date): Hour | null =>
   HOURS.find(hour => minutesUntil(date, hour, now) > 0) ?? null;
@@ -18,7 +18,7 @@ const firstHour = (date: string, now: Date): Hour | null =>
 export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }) {
   const [now, setNow] = useState(() => new Date());
   const [date, setDate] = useState(() => dateForNextWindow(now));
-  const [chosenHour, setChosenHour] = useState<Hour>(() => firstHour(date, now) ?? 16);
+  const [chosenHour, setChosenHour] = useState<Hour>(() => firstHour(date, now) ?? HOURS[0]);
   const [point, setPoint] = useState<Point>(ORIGIN);
   const [placeType, setPlaceType] = useState<PlaceType>('inside');
   const [plan, setPlan] = useState<Plan>('single');
@@ -101,7 +101,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
             <span className="sr-only"> en Google Calendar (abre en otra pestaña)</span>
           </a>
         </div>
-        <p className="quote-note">{!validTicket ? 'Ingresa un costo de entrada entre $0 y $100,000.' : hour === null ? 'Elige otra fecha para cotizar.' : lastMinute && quote && quote.discount > DISCOUNTS[plan] ? 'Incluye beneficio de última hora. Cotización sin reserva.' : 'Estimación en hora de CDMX. Sujeta a confirmación.'}</p>
+        <p className="quote-note">{!validTicket ? 'Ingresa un costo de entrada entre $0 y $100,000.' : hour === null ? 'Elige otra fecha para cotizar.' : lastMinute && quote && quote.discount > DISCOUNTS[plan] ? 'Incluye beneficio de última hora. Cotización sin reserva.' : 'Estimación en hora de CDMX. Confirma disponibilidad al agendar.'}</p>
       </div>
 
       <dialog ref={tariff} className="modal tariff-modal" aria-labelledby="tariff-title">
@@ -120,7 +120,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
         </dl>}
         <p>El traslado está incluido hasta {INCLUDED_RADIUS} km en línea recta desde la zona del CP 06600. Fuera de ese radio, se estiman $22 MXN por km adicional.</p>
         <p>La primera valoración reduce hasta {money(DISCOUNTS.first)}. El paquete reduce {money(DISCOUNTS.monthly)} por sesión. Las horas confirmadas como libres en las próximas 24 horas reciben hasta {money(LAST_MINUTE_DISCOUNT)} adicionales de descuento en esa sesión. La tarifa de sesión tiene un mínimo de {money(MINIMUM)} MXN.</p>
-        <p>Las sesiones duran una hora. La primera puede empezar a las 4:00 p. m. y la última a las 9:00 p. m. En un evento de paga, tu propia entrada se cubre por separado.</p>
+        <p>Las sesiones duran una hora. Puedes cotizar a las {HOURS.map(hourLabel).join(', ')}. Los espacios libres se confirman en Google Calendar. En un evento de paga, tu propia entrada se cubre por separado.</p>
       </dialog>
     </section>
   );
