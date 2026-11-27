@@ -119,9 +119,9 @@ export default function App() {
           href="https://www.instagram.com/yoexistocdmx/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="@yoExistoCDMX en Instagram (abre en otra pestaña)"
+          aria-label="@yoexistoCDMX en Instagram (abre en otra pestaña)"
         >
-          @yoExistoCDMX
+          @yoexistoCDMX
         </a>
       </footer>
 
