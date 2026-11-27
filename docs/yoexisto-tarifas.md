@@ -2,14 +2,14 @@
 
 La marca pública es yoExistoCDMX y el dominio previsto es `www.yoexisto.mx`.
 
-La landing calcula importes orientativos de una hora en el navegador. El pin no se envía al backend y elegir un horario no crea una reserva. El horario se interpreta en Ciudad de México. El origen del cálculo es un punto público cercano al Ángel de la Independencia, en la zona del CP 06600.
+La landing calcula importes orientativos de una hora en el navegador. El pin no se envía al backend y elegir un horario no crea una reserva. El horario se interpreta en Ciudad de México. El origen del cálculo es Nomaddicts Hostal, en Av. Chapultepec 79, Ciudad de México.
 
 ## Reglas iniciales en DEV
 
 | Variable | Regla |
 | --- | --- |
 | Precio base y mínimo | $410 MXN de base y $350 MXN de mínimo para la sesión, antes de la entrada de un evento |
-| Traslado | Incluido en 2.5 km en línea recta. $22 MXN por km adicional, redondeados al peso |
+| Traslado | Incluido hasta 2 km en línea recta. $22 MXN por km adicional, redondeados al peso |
 | Inicios a las 15, 17, 19 y 21 h | Ajustes de $0, $15, $30 y $25, respectivamente |
 | Establecimiento, aire libre, evento | Ajustes de $0, $30 y $60. En eventos se suma el costo introducido de la entrada del terapeuta por sesión |
 | Primera valoración | Hasta $60 de descuento en una sesión |

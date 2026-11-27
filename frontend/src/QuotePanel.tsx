@@ -118,7 +118,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
           {plan === 'monthly' && <div><dt>Descuento en cada sesión restante</dt><dd>−{money(DISCOUNTS.monthly)}</dd></div>}
           <div className="rates-total"><dt>{plan === 'monthly' ? 'Total por 4 sesiones' : 'Total por hora'}</dt><dd>{money(quote.total)} MXN</dd></div>
         </dl>}
-        <p>El traslado está incluido hasta {INCLUDED_RADIUS} km en línea recta desde la zona del CP 06600. Fuera de ese radio, se estiman $22 MXN por km adicional.</p>
+        <p>El traslado está incluido hasta {INCLUDED_RADIUS} km en línea recta desde Nomaddicts Hostal (Av. Chapultepec 79). Fuera de ese radio, se estiman $22 MXN por km adicional.</p>
         <p>La primera valoración reduce hasta {money(DISCOUNTS.first)}. El paquete reduce {money(DISCOUNTS.monthly)} por sesión. Las horas confirmadas como libres en las próximas 24 horas reciben hasta {money(LAST_MINUTE_DISCOUNT)} adicionales de descuento en esa sesión. La tarifa de sesión tiene un mínimo de {money(MINIMUM)} MXN.</p>
         <p>Las sesiones duran una hora. Puedes cotizar a las {HOURS.map(hourLabel).join(', ')}. Los espacios libres se confirman en Google Calendar. En un evento de paga, tu propia entrada se cubre por separado.</p>
       </dialog>
