@@ -70,7 +70,14 @@ h1, h2, p { margin: 0; }
 }
 .brand-existo { color: var(--accent); }
 .brand-city { color: #fff; }
-.brand-symbol { display: inline-block; color: var(--accent); font-size: .77em; margin-right: 5px; transform: rotate(-9deg); }
+.brand-symbol {
+  display: inline-block;
+  width: .77em;
+  height: .92em;
+  margin-right: 5px;
+  vertical-align: -.1em;
+  color: var(--accent);
+}
 .plain-button {
   background: none;
   border: 0;
