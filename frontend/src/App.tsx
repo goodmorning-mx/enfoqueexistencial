@@ -97,7 +97,15 @@ export default function App() {
           <button type="button" aria-pressed={panel === 'home'} onClick={() => setPanel('home')}>Inicio</button>
           <button type="button" aria-pressed={panel === 'quote'} onClick={() => setPanel('quote')}>Cotizar <span aria-hidden="true">↗</span></button>
         </nav>
-        <span>@yoExistoCDMX</span>
+        <a
+          className="footer-instagram"
+          href="https://www.instagram.com/yoexistocdmx/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="@yoExistoCDMX en Instagram (abre en otra pestaña)"
+        >
+          @yoExistoCDMX
+        </a>
       </footer>
 
       <dialog ref={about} className="modal" aria-labelledby="about-title">
