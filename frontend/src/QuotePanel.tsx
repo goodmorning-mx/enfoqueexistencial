@@ -60,7 +60,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
   return (
     <section className="quote-pane pane" aria-labelledby="quote-title">
       <div className="quote-heading">
-        <div><p className="kicker"><span className="signal-dot" /> COTIZADOR</p><h2 id="quote-title">Tu vida, <span className="quote-highlight">tu elección.</span></h2></div>
+        <div><p className="kicker"><span className="signal-dot" /> COTIZADOR</p><h2 id="quote-title">Tu vida, <span className="quote-highlight">tu escenario.</span></h2></div>
         <p>Toca el mapa o arrastra el pin.<br />Elige fecha, hora y modalidad.</p>
       </div>
       <SessionMap point={point} price={quote ? money(quote.perSession) + ' / h' : 'Elige un horario'}
