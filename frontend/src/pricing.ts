@@ -9,10 +9,10 @@ export const MINIMUM = 350;
 export const BASE = 410;
 export const PACKAGE_SIZE = 4;
 export const PLACE_SURCHARGES = { inside: 0, outside: 30, event: 60 };
-export const HOURS = [16, 17, 18, 19, 20, 21] as const;
+export const HOURS = [15, 17, 19, 21] as const;
 export type Hour = (typeof HOURS)[number];
 export const HOUR_SURCHARGES: Record<Hour, number> = {
-  16: 0, 17: 15, 18: 30, 19: 30, 20: 15, 21: 25,
+  15: 0, 17: 15, 19: 30, 21: 25,
 };
 export const DISCOUNTS = { single: 0, first: 60, monthly: 40 };
 export const LAST_MINUTE_DISCOUNT = 25;

@@ -10,7 +10,7 @@ La landing calcula importes orientativos de una hora en el navegador. El pin no 
 | --- | --- |
 | Precio base y mínimo | $410 MXN de base y $350 MXN de mínimo para la sesión, antes de la entrada de un evento |
 | Traslado | Incluido en 2.5 km en línea recta. $22 MXN por km adicional, redondeados al peso |
-| Inicios a las 16, 17, 18, 19, 20 y 21 h | Ajustes de $0, $15, $30, $30, $15 y $25, respectivamente |
+| Inicios a las 15, 17, 19 y 21 h | Ajustes de $0, $15, $30 y $25, respectivamente |
 | Establecimiento, aire libre, evento | Ajustes de $0, $30 y $60. En eventos se suma el costo introducido de la entrada del terapeuta por sesión |
 | Primera valoración | Hasta $60 de descuento en una sesión |
 | Paquete mensual | $40 de descuento por cada una de las cuatro sesiones. La cotización usa el mismo lugar, modalidad y horario para las cuatro |
@@ -20,7 +20,7 @@ Los ajustes se editan en `frontend/src/pricing.ts`. El traslado es una aproximac
 
 ## Espacios libres
 
-`frontend/public/availability.json` se publica como dato público y admite un arreglo `openSlots` con fechas en formato `AAAA-MM-DDTHH:00`, en hora de CDMX. Publicar solo horas que el operador confirmó libres; retirar una hora cuando deje de estar disponible. El arreglo empieza vacío porque todavía no hay agenda conectada. El cotizador omite el beneficio si el archivo no está disponible o no lista la fecha y hora exactas. El archivo no lleva datos de consultantes.
+`frontend/public/availability.json` se publica como dato público y admite un arreglo `openSlots` con fechas en formato `AAAA-MM-DDTHH:00`, en hora de CDMX. Publicar solo horas que el operador confirmó libres; retirar una hora cuando deje de estar disponible. Este archivo se mantiene manualmente para el beneficio de última hora. «Agendar cita» abre Google Calendar, que muestra los espacios disponibles para reservar. El cotizador omite el beneficio si el archivo no está disponible o no lista la fecha y hora exactas. El archivo no lleva datos de consultantes.
 
 ## Dependencias y reversión
 
