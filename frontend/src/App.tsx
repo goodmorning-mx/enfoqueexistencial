@@ -1,106 +1,123 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import FlyingPosters from './effects/FlyingPosters.jsx';
+import Particles from './effects/Particles.jsx';
+import QuotePanel from './QuotePanel';
 
-const images = {
-  hero: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1900&q=88',
-  walk: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1000&q=85',
-  forest: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85',
-};
 const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+const photoBase = 'https://images.unsplash.com/';
+const photos = [
+  { image: 'photo-1599067821475-c47c29093bf7', alt: 'Luces y edificios en Paseo de la Reforma de noche', name: 'Marco Murakami', id: 'jMslJKj3IQY' },
+  { image: 'photo-1759299613796-7dcadce51750', alt: 'Personas caminando por una calle de la Ciudad de México', name: 'Julio Lopez', id: 'TOYeI40c8Eo' },
+  { image: 'photo-1682184507208-0893c2ccdd7c', alt: 'El Ángel de la Independencia visto desde el aire', name: 'Jordan Wischmann', id: 'hBbxgKNrFgo' },
+  { image: 'photo-1759299613841-9569f843e01e', alt: 'Personas cruzando una calle mojada de noche', name: 'Julio Lopez', id: 'y7dz5So9oQY' },
+];
+const posters = photos.map(photo => photoBase + photo.image + '?auto=format&fit=crop&w=720&q=82');
+const questions = ['¿Quién soy?', '¿Qué hago aquí?', '¿De qué se trata todo esto?', '¿Estoy bien o estoy mal?', '¿Cuál es la mejor decisión?'];
 
-function ArrowIcon() {
-  return <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M10 5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduced(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  return reduced;
 }
 
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function App() {
+  const [panel, setPanel] = useState<'home' | 'quote'>('home');
+  const [question, setQuestion] = useState(0);
+  const [photo, setPhoto] = useState(0);
+  const [webgl, setWebgl] = useState(false);
+  const about = useRef<HTMLDialogElement>(null);
+  const gallery = useRef<HTMLDialogElement>(null);
+  const reducedMotion = useReducedMotion();
+  useEffect(() => {
+    const gl = document.createElement('canvas').getContext('webgl2');
+    setWebgl(Boolean(gl));
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
+  }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  const showPhoto = (index: number) => {
+    setPhoto(index);
+    gallery.current?.showModal();
+  };
 
   return (
-    <main data-api-url={apiUrl}>
+    <div className="site" data-api-url={apiUrl}>
+      <div className="starfield" aria-hidden="true">
+        {webgl && !reducedMotion && (
+          <Particles particleColors={['#dedee6', '#b8e56b']} particleCount={190} particleSpread={12}
+            speed={0.075} particleBaseSize={75} glow={0.45} twinkle={0.3} intro={false}
+            moveParticlesOnHover={false} clickBurst={false} opacity={0.75} pixelRatio={1} />
+        )}
+      </div>
       <header className="site-header">
-        <a className="wordmark" href="#inicio" aria-label="Enfoque Existencial, inicio">
-          <span className="wordmark-mark" aria-hidden="true"><span /></span>
-          <span>enfoque<span className="wordmark-light">existencial</span></span>
-        </a>
-        <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
-          <span /><span />
+        <button className="brand" type="button" onClick={() => setPanel('home')} aria-label="yoExisto, inicio">
+          <span className="brand-symbol" aria-hidden="true">✳</span> yo<span>Existo</span>
         </button>
-        <nav className={menuOpen ? 'main-nav main-nav--open' : 'main-nav'} aria-label="Navegación principal">
-          <a href="#experiencia" onClick={closeMenu}>La experiencia</a>
-          <a href="#mirada" onClick={closeMenu}>Una mirada distinta</a>
-          <a className="nav-cta" href="#contacto" onClick={closeMenu}>Conversemos <ArrowIcon /></a>
-        </nav>
+        <button className="plain-button" type="button" onClick={() => about.current?.showModal()}>Cómo funciona <span aria-hidden="true">↗</span></button>
       </header>
 
-      <section className="hero" id="inicio" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <p className="eyebrow"><span className="eyebrow-line" />Terapia existencial al aire libre</p>
-          <h1 id="hero-title">A veces, el siguiente paso aparece <em>cuando te detienes.</em></h1>
-          <p className="hero-lede">Un espacio para caminar, conversar y hacer lugar a lo que de verdad importa. Sin prisa. Sin tener que llegar con todas las respuestas.</p>
-          <a className="button button-dark" href="#experiencia">Conoce la experiencia <ArrowIcon /></a>
-          <div className="hero-note"><span className="note-sun" aria-hidden="true">✳</span><span>Una conversación honesta.<br />Un camino abierto.</span></div>
-        </div>
-        <div className="hero-visual">
-          <img src={images.hero} alt="Montañas y agua en calma al amanecer" />
-          <div className="image-caption"><span>Respirar · Mirar · Elegir</span><span className="caption-dot" /></div>
-          <div className="hero-stamp" aria-label="Un espacio para estar presente"><span>un espacio</span><strong>para estar<br />presente</strong><i aria-hidden="true">✳</i></div>
-        </div>
-        <div className="hero-index" aria-hidden="true">01 <span /> 03</div>
-      </section>
-
-      <div className="marquee" aria-label="Terapia, naturaleza, presencia">
-        <span>Terapia</span><i>✳</i><span>Naturaleza</span><i>✳</i><span>Presencia</span><i>✳</i><span>Sentido</span><i>✳</i><span>Elección</span>
-      </div>
-
-      <section className="intro section-wrap" id="mirada">
-        <div className="section-kicker"><span>01</span><span className="kicker-rule" />Una pausa con intención</div>
-        <div className="intro-grid">
-          <h2>No tienes que resolverlo todo <em>hoy.</em></h2>
-          <div className="intro-text"><p>Hay momentos en que seguir en automático ya no alcanza. Algo pide atención: una decisión, una pérdida, un cambio, una pregunta que vuelve.</p><p>La terapia existencial outdoor abre un espacio distinto para escucharlo. Caminamos y conversamos en un entorno natural, con presencia y curiosidad, para mirar tu experiencia desde otro lugar.</p><a className="text-link" href="#experiencia">Así puede ser el encuentro <ArrowIcon /></a></div>
-        </div>
-      </section>
-
-      <section className="experience" id="experiencia">
-        <div className="experience-inner">
-          <div className="experience-heading">
-            <div className="section-kicker section-kicker--light"><span>02</span><span className="kicker-rule" />El encuentro</div>
-            <h2>Un camino para volver <em>a ti.</em></h2>
-            <p>No se trata de caminar para escapar de lo que pasa, sino de encontrar espacio para acercarte a ello con más calma.</p>
+      <main className="workspace" data-panel={panel}>
+        <section className="intro-pane pane" aria-labelledby="intro-title">
+          <div className="intro-copy">
+            <p className="kicker">PSICOTERAPIA EXISTENCIAL · CDMX</p>
+            <h1 id="intro-title">La terapia <br />donde <em>tú elijas.</em></h1>
+            <p className="intro-body">En un café, debajo de un puente, en el parque o caminando por la calle. El lugar que eliges dice algo de cómo habitas el mundo. Podemos empezar por ahí.</p>
           </div>
-          <div className="experience-photo"><img src={images.walk} alt="Sendero natural rodeado de árboles" /><span className="photo-label">A tu ritmo, paso a paso</span></div>
-          <div className="experience-cards">
-            <article className="experience-card"><span className="card-number">01</span><h3>Hacer espacio</h3><p>Dejamos atrás por un momento el ruido y llegamos al presente, tal como estás.</p></article>
-            <article className="experience-card"><span className="card-number">02</span><h3>Mirar con honestidad</h3><p>Conversamos sobre lo que vives, lo que pesa y lo que te gustaría cuidar.</p></article>
-            <article className="experience-card"><span className="card-number">03</span><h3>Elegir tu siguiente paso</h3><p>No hay respuestas prefabricadas. Buscamos claridad para avanzar a tu manera.</p></article>
+
+          <div className="gallery" aria-label="Galería de escenas de Ciudad de México">
+            {webgl && !reducedMotion ? (
+              <FlyingPosters items={posters} planeWidth={320} planeHeight={320} distortion={3} scrollEase={0.01}
+                cameraFov={45} cameraZ={20} axis="horizontal" gap={38} radius={10} fade={0.17}
+                onItemClick={(_item: unknown, index: number) => showPhoto(index)} />
+            ) : (
+              <button className="poster-fallback" type="button" onClick={() => showPhoto(0)} aria-label="Ver fotografía de Paseo de la Reforma">
+                <img src={posters[0]} alt={photos[0].alt} />
+              </button>
+            )}
+            <button className="gallery-open" type="button" onClick={() => showPhoto(0)}>Ver fotos <span aria-hidden="true">↗</span></button>
           </div>
-          <div className="experience-footnote"><span>✳</span> La naturaleza no da respuestas por nosotros.<br />A veces ayuda a hacer mejores preguntas.</div>
+
+          <div className="question-bar" aria-label="Preguntas existenciales">
+            <button type="button" className="icon-button" aria-label="Pregunta anterior" onClick={() => setQuestion((question + questions.length - 1) % questions.length)}>←</button>
+            <p aria-live="polite">{questions[question]}</p>
+            <button type="button" className="icon-button" aria-label="Siguiente pregunta" onClick={() => setQuestion((question + 1) % questions.length)}>→</button>
+          </div>
+        </section>
+
+        <QuotePanel reducedMotion={reducedMotion} />
+      </main>
+
+      <footer className="site-footer">
+        <span>Ciudad de México</span>
+        <nav aria-label="Secciones en móvil" className="mobile-nav">
+          <button type="button" aria-pressed={panel === 'home'} onClick={() => setPanel('home')}>Inicio</button>
+          <button type="button" aria-pressed={panel === 'quote'} onClick={() => setPanel('quote')}>Cotizar <span aria-hidden="true">↗</span></button>
+        </nav>
+        <span>@yoExistoCDMX</span>
+      </footer>
+
+      <dialog ref={about} className="modal" aria-labelledby="about-title">
+        <form method="dialog"><button className="icon-button modal-close" aria-label="Cerrar">×</button></form>
+        <p className="kicker">CÓMO FUNCIONA</p>
+        <h2 id="about-title">Tú eliges el lugar.</h2>
+        <p>La psicoterapia existencial es un espacio para explorar cómo vives lo que te pasa, qué te importa y qué posibilidades tienes. Puedes empezar con una decisión, un cambio o una pregunta que todavía no sabes cómo formular.</p>
+        <p>Elegir el lugar es una forma de tener libertad desde el inicio. Conversamos de igual a igual y acordamos contigo cómo cuidar tu privacidad en el espacio que prefieras.</p>
+        <p>Si hay ruido, podemos usar audífonos. Si prefieres escribir en un sitio público, podemos comunicarnos por texto mientras estamos ahí, en persona.</p>
+      </dialog>
+
+      <dialog ref={gallery} className="modal photo-modal" aria-label="Galería de Ciudad de México">
+        <form method="dialog"><button className="icon-button modal-close" aria-label="Cerrar galería">×</button></form>
+        <img src={posters[photo]} alt={photos[photo].alt} />
+        <div className="photo-controls">
+          <button className="icon-button" type="button" aria-label="Foto anterior" onClick={() => setPhoto((photo + photos.length - 1) % photos.length)}>←</button>
+          <a href={'https://unsplash.com/photos/' + photos[photo].id} target="_blank" rel="noreferrer">Foto de {photos[photo].name}</a>
+          <button className="icon-button" type="button" aria-label="Siguiente foto" onClick={() => setPhoto((photo + 1) % photos.length)}>→</button>
         </div>
-      </section>
-
-      <section className="reflection section-wrap">
-        <div className="reflection-image"><img src={images.forest} alt="Luz atravesando un bosque" /><span className="reflection-mark">de vuelta<br />a lo esencial <i>↗</i></span></div>
-        <div className="reflection-copy">
-          <div className="section-kicker"><span>03</span><span className="kicker-rule" />Una invitación</div>
-          <h2>La vida no siempre pide una respuesta. A veces pide <em>presencia.</em></h2>
-          <p>Este espacio es para ti si estás atravesando un cambio, buscas orientación o simplemente sientes que llegó el momento de escucharte con más atención.</p>
-          <p>No necesitas saber exactamente qué decir. Podemos empezar por ahí.</p>
-          <a className="button button-outline" href="#contacto">Dar el primer paso <ArrowIcon /></a>
-        </div>
-      </section>
-
-      <section className="contact" id="contacto">
-        <div className="contact-orbit" aria-hidden="true">✳</div>
-        <p className="eyebrow eyebrow--light">Una conversación puede ser el comienzo</p>
-        <h2>¿Qué te gustaría<br /><em>mirar con más calma?</em></h2>
-        <p className="contact-lede">Si esta forma de encontrarte contigo resuena, podemos conversar sobre lo que estás buscando y cómo sería un primer encuentro.</p>
-        <a className="button button-light" href="#inicio">Volver al inicio <ArrowIcon /></a>
-        <span className="contact-note">El contacto directo estará disponible pronto.</span>
-      </section>
-
-      <footer className="site-footer"><a className="wordmark wordmark--footer" href="#inicio"><span className="wordmark-mark" aria-hidden="true"><span /></span><span>enfoque<span className="wordmark-light">existencial</span></span></a><span>Terapia existencial outdoor</span><a href="#inicio" className="back-top">Volver arriba ↑</a></footer>
-    </main>
+      </dialog>
+    </div>
   );
 }
-
-export default App;

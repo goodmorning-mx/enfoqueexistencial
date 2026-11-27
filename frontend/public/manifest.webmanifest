@@ -1,9 +1,9 @@
 {
-  "name": "GoodMorning Product",
-  "short_name": "GoodMorning",
+  "name": "yoExisto · Psicoterapia existencial",
+  "short_name": "yoExisto",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#111827"
+  "background_color": "#090a0b",
+  "theme_color": "#090a0b"
 }
