@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import Radar from './effects/Radar.jsx';
+import AddressSearch from './AddressSearch';
+import { MAP_BOUNDS } from './mapSearch';
 import { INCLUDED_RADIUS, ORIGIN, type Point } from './pricing';
 
-const BOUNDS: [Point, Point] = [[-99.4, 19.12], [-98.94, 19.61]];
 const mapModule = 'https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.mjs';
-const boundsPoint = (point: Point): Point => [
-  Math.min(BOUNDS[1][0], Math.max(BOUNDS[0][0], point[0])),
-  Math.min(BOUNDS[1][1], Math.max(BOUNDS[0][1], point[1])),
-];
+const boundsPoint = ([lng, lat]: Point): Point => {
+  const [[west, south], [east, north]] = MAP_BOUNDS;
+  return [Math.min(east, Math.max(west, lng)), Math.min(north, Math.max(south, lat))];
+};
 
 type LngLat = { lng: number; lat: number };
 interface MapView {
@@ -15,6 +16,7 @@ interface MapView {
   on(event: 'click', handler: (event: { lngLat: LngLat }) => void): void;
   on(event: 'error', handler: () => void): void;
   getCenter(): LngLat;
+  easeTo(options: { center: Point; zoom: number; duration: number }): void;
   addSource(id: string, source: object): void;
   addLayer(layer: object): void;
   zoomIn(options: { duration: number }): void;
@@ -74,11 +76,11 @@ export default function SessionMap({ point, price, onPoint, reducedMotion }: {
       const view = new module.Map({
         container: host,
         style: 'https://tiles.openfreemap.org/styles/dark',
-        center: ORIGIN,
+        center: initial.current.point,
         zoom: 11.6,
         minZoom: 10,
         maxZoom: 17,
-        maxBounds: BOUNDS,
+        maxBounds: MAP_BOUNDS,
         renderWorldCopies: false,
         dragRotate: false,
         pitchWithRotate: false,
@@ -142,13 +144,18 @@ export default function SessionMap({ point, price, onPoint, reducedMotion }: {
 
   return (
     <div className="map-shell" data-map-status={status}>
-      <div ref={container} className="map-base" aria-label="Mapa interactivo de Ciudad de México" />
+      <div ref={container} className="map-base" tabIndex={-1} aria-label="Mapa interactivo de Ciudad de México" />
       <div className="map-radar" aria-hidden="true">
         {!reducedMotion && <Radar color="#bcff67" scale={0.9} speed={0.34} ringCount={4}
           spokeCount={8} targets={0} clutter={0} ticks={false} grain={0} glow={0.6}
           mouseInteraction={false} intro={false} dpr={1} />}
       </div>
       <div className="map-top">
+        <AddressSearch onSelect={address => {
+          onPoint(address);
+          map.current?.easeTo({ center: address, zoom: 15, duration: reducedMotion ? 0 : 450 });
+          container.current?.focus({ preventScroll: true });
+        }} />
         <span className="map-led"><i /> CDMX</span>
       </div>
       {status !== 'ready' && <p className="map-fallback" role="status">
