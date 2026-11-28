@@ -11,7 +11,7 @@ La landing calcula importes orientativos de una hora en el navegador. El pin no 
 | Precio base y mínimo | $410 MXN de base y $350 MXN de mínimo para la sesión, antes de la entrada de un evento |
 | Traslado | Incluido hasta 2 km en línea recta. $22 MXN por km adicional, redondeados al peso |
 | Inicios a las 15, 17, 19 y 21 h | Ajustes de $0, $15, $30 y $25, respectivamente |
-| Establecimiento, aire libre, evento | Ajustes de $0, $30 y $60. En eventos se suma el costo introducido de la entrada del terapeuta por sesión |
+| Establecimiento, aire libre, domicilio, evento | Ajustes de $0, $30, $50 y $60 por sesión. El recargo a domicilio cubre la coordinación de la visita. En eventos se suma el costo introducido de la entrada del terapeuta por sesión |
 | Primera valoración | Hasta $60 de descuento en una sesión |
 | Paquete mensual | $40 de descuento por cada una de las cuatro sesiones. La cotización usa el mismo lugar, modalidad y horario para las cuatro |
 | Última hora | Hasta $25 de descuento adicional en la sesión de inicio, si es un espacio confirmado y faltan hasta 24 h |
@@ -24,4 +24,4 @@ Los ajustes se editan en `frontend/src/pricing.ts`. El traslado es una aproximac
 
 ## Dependencias y reversión
 
-La cartografía usa [OpenFreeMap](https://openfreemap.org/) y MapLibre GL JS, con puntos de referencia como alternativa. La galería usa fotos de CDMX con créditos y los efectos de React Bits vendorizados en `frontend/src/effects/`. Para revertir la versión de DEV, abrir un PR que revierta el commit de integración y verificar `/version.json` después del despliegue.
+La cartografía usa [OpenFreeMap](https://openfreemap.org/) y MapLibre GL JS. Al pulsar «Buscar», el navegador envía el texto a [Photon](https://github.com/komoot/photon). La aplicación restringe la búsqueda a los límites navegables del mapa, valida las coordenadas antes de mostrar los resultados y marca las coincidencias sin número como aproximadas. La disponibilidad y precisión dependen del servicio público y de los datos de OpenStreetMap. El pin permite cotizar manualmente si una dirección no aparece. La galería usa fotos de CDMX con créditos y los efectos de React Bits vendorizados en `frontend/src/effects/`. Para revertir la versión de DEV, abrir un PR que revierta el commit de integración y verificar `/version.json` después del despliegue.

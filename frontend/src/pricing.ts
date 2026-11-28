@@ -1,5 +1,5 @@
 export type Point = [longitude: number, latitude: number];
-export type PlaceType = 'inside' | 'outside' | 'event';
+export type PlaceType = 'inside' | 'outside' | 'home' | 'event';
 export type Plan = 'single' | 'first' | 'monthly';
 
 // Nomaddicts Hostal, Av. Chapultepec 79, Ciudad de México.
@@ -8,7 +8,7 @@ export const INCLUDED_RADIUS = 2;
 export const MINIMUM = 350;
 export const BASE = 410;
 export const PACKAGE_SIZE = 4;
-export const PLACE_SURCHARGES = { inside: 0, outside: 30, event: 60 };
+export const PLACE_SURCHARGES: Record<PlaceType, number> = { inside: 0, outside: 30, home: 50, event: 60 };
 export const HOURS = [15, 17, 19, 21] as const;
 export type Hour = (typeof HOURS)[number];
 export const HOUR_SURCHARGES: Record<Hour, number> = {

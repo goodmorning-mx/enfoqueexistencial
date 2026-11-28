@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SessionMap from './SessionMap';
 import {
-  BASE, DISCOUNTS, HOURS, INCLUDED_RADIUS, LAST_MINUTE_DISCOUNT, MINIMUM, ORIGIN,
+  BASE, DISCOUNTS, HOURS, INCLUDED_RADIUS, LAST_MINUTE_DISCOUNT, MINIMUM, ORIGIN, PLACE_SURCHARGES,
   hourLabel, localToday, minutesUntil, money, quoteSession, slotKey,
   type Hour, type PlaceType, type Plan, type Point,
 } from './pricing';
@@ -61,7 +61,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
     <section className="quote-pane pane" aria-labelledby="quote-title">
       <div className="quote-heading">
         <div><p className="kicker"><span className="signal-dot" /> COTIZADOR</p><h2 id="quote-title">Tu vida, <span className="quote-highlight">tu escenario.</span></h2></div>
-        <p>Toca el mapa o arrastra el pin.<br />Elige fecha, hora y modalidad.</p>
+        <p>Busca una dirección o mueve el pin.<br />Elige fecha, hora y modalidad.</p>
       </div>
       <SessionMap point={point} price={quote ? money(quote.perSession) + ' / h' : 'Elige un horario'}
         onPoint={setPoint} reducedMotion={reducedMotion} />
@@ -76,7 +76,10 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
             {HOURS.map(item => <option key={item} value={item} disabled={minutesUntil(selectedDate, item, now) <= 0}>{hourLabel(item)}</option>)}
           </select></label>
           <label>Modalidad<select value={placeType} onChange={event => setPlaceType(event.target.value as PlaceType)}>
-            <option value="inside">Establecimiento</option><option value="outside">Al aire libre</option><option value="event">Evento de paga</option>
+            <option value="inside">Establecimiento</option>
+            <option value="outside">Al aire libre</option>
+            <option value="home">A domicilio</option>
+            <option value="event">Evento de paga</option>
           </select></label>
           <label>Tipo de sesión<select value={plan} onChange={event => setPlan(event.target.value as Plan)}>
             <option value="single">Sesión única</option><option value="first">Primera valoración</option><option value="monthly">Paquete de 4</option>
@@ -119,6 +122,7 @@ export default function QuotePanel({ reducedMotion }: { reducedMotion: boolean }
           <div className="rates-total"><dt>{plan === 'monthly' ? 'Total por 4 sesiones' : 'Total por hora'}</dt><dd>{money(quote.total)} MXN</dd></div>
         </dl>}
         <p>El traslado está incluido hasta {INCLUDED_RADIUS} km en línea recta desde Nomaddicts Hostal (Av. Chapultepec 79). Fuera de ese radio, se estiman $22 MXN por km adicional.</p>
+        {placeType === 'home' && <p>La visita a domicilio añade {money(PLACE_SURCHARGES.home)} MXN por sesión por la coordinación de la visita. El traslado se calcula por separado.</p>}
         <p>La primera valoración reduce hasta {money(DISCOUNTS.first)}. El paquete reduce {money(DISCOUNTS.monthly)} por sesión. Las horas confirmadas como libres en las próximas 24 horas reciben hasta {money(LAST_MINUTE_DISCOUNT)} adicionales de descuento en esa sesión. La tarifa de sesión tiene un mínimo de {money(MINIMUM)} MXN.</p>
         <p>Las sesiones duran una hora. Puedes cotizar a las {HOURS.map(hourLabel).join(', ')}. Los espacios libres se confirman en Google Calendar. En un evento de paga, tu propia entrada se cubre por separado.</p>
       </dialog>

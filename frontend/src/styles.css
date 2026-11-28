@@ -186,7 +186,55 @@ h1, h2, p { margin: 0; }
 .map-base, .map-radar { position: absolute; inset: 0; }
 .map-base { z-index: 0; }
 .map-radar { z-index: 2; pointer-events: none; opacity: .52; }
-.map-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; position: absolute; z-index: 3; inset: 10px 10px auto; pointer-events: none; }
+.map-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; position: absolute; z-index: 4; inset: 10px 10px 26px; pointer-events: none; }
+.map-search { display: flex; flex-direction: column; width: min(100%, 330px); min-width: 0; max-height: 100%; }
+.map-search-row { display: flex; gap: 5px; flex-shrink: 0; }
+.map-search-row input, .map-search-row button {
+  min-height: 32px;
+  border: 1px solid #b9ef7255;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font: 500 .74rem var(--mono);
+}
+.map-search-row input { width: 100%; min-width: 0; background: #10180f; }
+.map-search-row button { background: var(--accent); color: #131902; }
+.map-search-row button:disabled { background: #18231a; color: #c3cebe; cursor: default; }
+.map-search-hint, .map-search-status {
+  align-self: flex-start;
+  background: #10180f;
+  color: #d9e3d3;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin: 3px 0 0;
+  font-size: .68rem;
+  line-height: 1.3;
+}
+.map-search-status:empty { display: none; }
+.map-search-results {
+  min-height: 0;
+  max-height: 180px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid #b9ef7255;
+  background: #10180f;
+}
+.map-search-results button {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: transparent;
+  text-align: left;
+  font-size: .79rem;
+  overflow-wrap: anywhere;
+}
+.map-search-results button:hover, .map-search-results button:focus-visible { background: #283624; outline-offset: -2px; }
+.map-search-results small { display: block; color: #b9c6b3; }
 .map-top > * { pointer-events: auto; }
 .map-led, .map-controls button {
   border: 1px solid #b9ef7255;
